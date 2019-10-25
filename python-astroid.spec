@@ -1,49 +1,47 @@
+# NOTE: 1.6.6 is the last version with python 2.7 support; for newer, python3-only releases see python3-astroid.spec
 #
 # Conditional build:
-%bcond_without	tests	# unit tests
-%bcond_with	python2	# Python 2.x module
-%bcond_without	python3	# Python 3.x module
+%bcond_with	tests	# unit tests (too many failures)
+%bcond_without	python2	# Python 2.x module
+%bcond_with	python3	# Python 3.x module (newer version is built from python3-astroid.spec)
 
 %define	module	astroid
 Summary:	An abstract syntax tree for Python 2 with inference support
 Summary(pl.UTF-8):	Abstrakcyjnego drzewa składniowe dla Pythona 2 z obsługą wywodu
 Name:		python-%{module}
-Version:	2.3.2
+Version:	1.6.6
 Release:	1
+Epoch:		1
 License:	LGPL v2.1+
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/astroid/
 Source0:	https://files.pythonhosted.org/packages/source/a/astroid/astroid-%{version}.tar.gz
-# Source0-md5:	b2cd5c0383ff33c1410e737c2607aa7a
-Patch0:		%{name}-deps.patch
+# Source0-md5:	ce625aa26b8e93b4d6802401e0cf672b
 URL:		https://github.com/PyCQA/astroid
 %if %{with python2}
 BuildRequires:	python-devel >= 1:2.7
 BuildRequires:	python-modules >= 1:2.7
-BuildRequires:	python-pytest-runner
-BuildRequires:	python-setuptools >= 7.0
+BuildRequires:	python-setuptools >= 17.1
 %if %{with tests}
-BuildRequires:	python-lazy-object-proxy >= 1.4
+BuildRequires:	python-backports.functools_lru_cache
+BuildRequires:	python-enum34 >= 1.1.3
+BuildRequires:	python-lazy-object-proxy
 BuildRequires:	python-pytest
-BuildRequires:	python-six >= 1.12
-BuildRequires:	python-typed_ast >= 1.4.0
-BuildRequires:	python-typed_ast < 1.5
-BuildRequires:	python-wrapt >= 1.11
+BuildRequires:	python-pytest-runner
+BuildRequires:	python-singledispatch
+BuildRequires:	python-six
+BuildRequires:	python-wrapt
 %endif
 %endif
 %if %{with python3}
-BuildRequires:	python3-devel >= 1:3.5
+BuildRequires:	python3-devel >= 1:3.4
 BuildRequires:	python3-modules >= 1:3.5
-BuildRequires:	python3-pytest-runner
-BuildRequires:	python3-setuptools >= 7.0
+BuildRequires:	python3-setuptools >= 17.1
 %if %{with tests}
-BuildRequires:	python3-lazy-object-proxy >= 1.4
+BuildRequires:	python3-lazy-object-proxy
 BuildRequires:	python3-pytest
-BuildRequires:	python3-six >= 1.12
-%if "%{py3_ver}" < "3.8"
-BuildRequires:	python3-typed_ast >= 1.4.0
-BuildRequires:	python3-typed_ast < 1.5
-%endif
+BuildRequires:	python3-pytest-runner
+BuildRequires:	python3-six
 BuildRequires:	python3-wrapt >= 1.11
 %endif
 %endif
@@ -71,13 +69,7 @@ potrzebami pylinta. Dawniej nazywała się logilab-astng.
 Summary:	An abstract syntax tree for Python 3 with inference support
 Summary(pl.UTF-8):	Abstrakcyjnego drzewa składniowe dla Pythona 3 z obsługą wywodu
 Group:		Development/Languages/Python
-Requires:	python3-modules >= 1:3.5
-%if "%{py3_ver}" < "3.8"
-# not detected by rpm from rule:
-# [:implementation_name == "cpython" and python_version < "3.8"]
-Requires:	python3-typed_ast >= 1.4.0
-Requires:	python3-typed_ast < 1.5
-%endif
+Requires:	python3-modules >= 1:3.4
 Obsoletes:	python3-logilab-astng
 
 %description -n python3-%{module}
@@ -95,12 +87,11 @@ potrzebami pylinta. Dawniej nazywała się logilab-astng.
 
 %prep
 %setup -q -n %{module}-%{version}
-%patch0 -p1
 
 # non-deterministic (skipped if numpy not installed; unittest_brain_numpy_core_multiarray.py fails with numpy 1.16.5
-%{__rm} astroid/tests/unittest_brain_numpy_*
+#%{__rm} astroid/tests/unittest_brain_numpy_*
 # test_knownValues_get_builtin_module_part fails
-%{__rm} astroid/tests/unittest_modutils.py
+#%{__rm} astroid/tests/unittest_modutils.py
 
 %build
 %if %{with python2}
