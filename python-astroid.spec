@@ -9,6 +9,7 @@
 Summary:	An abstract syntax tree for Python 2 with inference support
 Summary(pl.UTF-8):	Abstrakcyjnego drzewa składniowe dla Pythona 2 z obsługą wywodu
 Name:		python-%{module}
+# DO NOT UPGRADE TO 2.x, SEE NOTE ABOVE
 Version:	1.6.6
 Release:	1
 Epoch:		1
