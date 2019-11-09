@@ -11,7 +11,7 @@ Summary(pl.UTF-8):	Abstrakcyjnego drzewa składniowe dla Pythona 2 z obsługą w
 Name:		python-%{module}
 # DO NOT UPGRADE TO 2.x, SEE NOTE ABOVE
 Version:	1.6.6
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL v2.1+
 Group:		Development/Languages/Python
