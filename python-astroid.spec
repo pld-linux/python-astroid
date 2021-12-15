@@ -22,7 +22,7 @@ URL:		https://github.com/PyCQA/astroid
 %if %{with python2}
 BuildRequires:	python-devel >= 1:2.7
 BuildRequires:	python-modules >= 1:2.7
-BuildRequires:	python-setuptools >= 17.1
+BuildRequires:	python-setuptools >= 1:17.1
 %if %{with tests}
 BuildRequires:	python-backports.functools_lru_cache
 BuildRequires:	python-enum34 >= 1.1.3
