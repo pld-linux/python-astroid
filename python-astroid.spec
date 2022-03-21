@@ -49,7 +49,7 @@ BuildRequires:	python3-wrapt >= 1.11
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 Requires:	python-modules >= 1:2.7
-Obsoletes:	python-logilab-astng
+Obsoletes:	python-logilab-astng < 1
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -71,7 +71,7 @@ Summary:	An abstract syntax tree for Python 3 with inference support
 Summary(pl.UTF-8):	Abstrakcyjnego drzewa składniowe dla Pythona 3 z obsługą wywodu
 Group:		Development/Languages/Python
 Requires:	python3-modules >= 1:3.4
-Obsoletes:	python3-logilab-astng
+Obsoletes:	python3-logilab-astng < 1
 
 %description -n python3-%{module}
 The aim of this module is to provide a common base representation of
@@ -99,6 +99,7 @@ potrzebami pylinta. Dawniej nazywała się logilab-astng.
 %py_build
 
 %if %{with tests}
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
 %{__python} -m pytest astroid/tests
 %endif
 %endif
@@ -107,6 +108,7 @@ potrzebami pylinta. Dawniej nazywała się logilab-astng.
 %py3_build
 
 %if %{with tests}
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
 %{__python3} -m pytest astroid/tests
 %endif
 %endif
